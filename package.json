@@ -1,0 +1,17 @@
+{
+  "name": "tutorial-js",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve"
+  },
+  "devDependencies": {
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "private": true,
+  "dependencies": {
+    "three": "^0.129.0"
+  }
+}

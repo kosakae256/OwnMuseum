@@ -17,14 +17,10 @@ export function GamingMove(mesh) {
     if (green>1 || green<0) {mesh.material.color.g = Math.round(mesh.material.color.g); green = Math.round(mesh.material.color.g);}
     if (blue>1 || blue<0) {mesh.material.color.b = Math.round(mesh.material.color.b); blue = Math.round(mesh.material.color.b);}
 
-    if (red==1 && green<1 && blue==0) {mesh.material.color.g += v; console.log("a");}
-    if (red<=1 && red!=0 && green==1 && blue==0) {mesh.material.color.r -= v; console.log("b");}
-    if (Math.abs(red)==0 && green==1 && blue<1) {mesh.material.color.b += v; console.log("c");}
-    if (red==0 && green<=1 && green!=0 && blue==1) {mesh.material.color.g -= v; console.log("d");}
-    if (red<1 && green==0 && blue==1) {mesh.material.color.r += v; console.log("e");}
-    if (red==1 && green==0 && blue<=1 && blue!=0) {mesh.material.color.b -= v; console.log("f");}
-
-    console.log(mesh.material.color);
-    console.log(red,blue,green);
-    console.log(Math.abs(red))
+    if (red==1 && green<1 && blue==0) {mesh.material.color.g += v;}
+    if (red<=1 && red!=0 && green==1 && blue==0) {mesh.material.color.r -= v;}
+    if (Math.abs(red)==0 && green==1 && blue<1) {mesh.material.color.b += v;}
+    if (red==0 && green<=1 && green!=0 && blue==1) {mesh.material.color.g -= v;}
+    if (red<1 && green==0 && blue==1) {mesh.material.color.r += v;}
+    if (red==1 && green==0 && blue<=1 && blue!=0) {mesh.material.color.b -= v;}
 }

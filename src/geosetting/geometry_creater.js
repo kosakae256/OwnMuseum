@@ -4,6 +4,8 @@ import { MTLLoader } from "./../module/MTLLoader";
 
 //Geometry(boxとかメッシュとか)を作って返す。分割用。
 export function GeoCreater(scene) {
+    var returnobjects = []
+
     const loader = new THREE.TextureLoader();
 
     //scene.fog = new THREE.FogExp2(0x000000, 0.005);
@@ -28,20 +30,17 @@ export function GeoCreater(scene) {
     */
 
     //平行光源を生成
-    const light2 = new THREE.DirectionalLight(0xffffff);
-    light2.position.set(20, 1, 0);
-    scene.add(light2);
+    const light2 = new THREE.DirectionalLight(0x444444);
+    light2.position.set(0, 10, 0);
+    //scene.add(light2);
 
-    const light = new THREE.AmbientLight(0xFFFFFF, 1.0);
+    const light3 = new THREE.PointLight(0x777777, 2, 95, 0.75);
+    scene.add(light3);
+
+    const light = new THREE.AmbientLight(0xaaaaaa, 1.0);
     scene.add(light);
 
-    /*
-      const gltfLoader = new GLTFLoader();
-        gltfLoader.load('./models/cotage.gltf', (gltf) => {
-          const root = gltf.scene;
-          scene.add(root);
-        });
-    */
+
     //横縦の画像貼り付けデータ
     let boxArrayData = [
         new Array(7),
@@ -125,9 +124,19 @@ export function GeoCreater(scene) {
             object.position.y = -7;
             object.position.z = -25;
             object.rotation.y = Math.PI / -2;
+            object.name = "fennec3D"
             scene.add(object);
         })
     })
+
+    //フェネックの当たり判定
+    const geometry_fene = new THREE.BoxGeometry(4, 20, 4);
+    const fennec_hantei = new THREE.Mesh(geometry_fene, new THREE.MeshBasicMaterial({ color : 0xffffff, opacity : 0.0,transparent: true,}));
+    fennec_hantei.position.x = 46;
+    fennec_hantei.position.y = -7;
+    fennec_hantei.position.z = -25;
+    fennec_hantei.rotation.y = Math.PI / -2;
+    scene.add(fennec_hantei);
 
     //3Dモデル、ホワイトボード読込み
     let mtlLoader2 = new MTLLoader();
@@ -185,9 +194,8 @@ export function GeoCreater(scene) {
     githubicon.rotation.y = Math.PI / -2;
     scene.add(githubicon);
 
-
+    //文字1,アカウント
     const fontloader = new THREE.FontLoader();
-
     fontloader.load('fonts/helvetiker_regular.typeface.json', function (font) {
 
         const textgeometry = new THREE.TextGeometry('Accounts', {
@@ -197,8 +205,8 @@ export function GeoCreater(scene) {
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff, overdraw: 0.5 }),
-            new THREE.MeshBasicMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -211,11 +219,111 @@ export function GeoCreater(scene) {
         scene.add(text)
     });
 
+    //文字2,協力者
+    const fontloader2 = new THREE.FontLoader();
+    fontloader2.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+        const textgeometry = new THREE.TextGeometry('Cooperation', {
+            font: font,
+            size: 4,
+            height: 1,
+            curveSegments: 12,
+        });
+        var materials = [
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+        ];
+        var text = new THREE.Mesh(
+            textgeometry,
+            materials
+        );
+        text.position.x = 24;
+        text.position.y = 6;
+        text.position.z = 50
+        text.rotation.y = Math.PI;
+        scene.add(text)
+    });
+
+    //文字3 3dモデル提供者
+    const fontloader3 = new THREE.FontLoader();
+    fontloader3.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+        const textgeometry = new THREE.TextGeometry('from AT-GOOLD\nfennec 3D model\nhttps://3d.nicovideo.jp/works/td29482', {
+            font: font,
+            size: 0.7,
+            height: 0.01,
+            curveSegments: 12,
+        });
+        var materials = [
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+        ];
+        var text = new THREE.Mesh(
+            textgeometry,
+            materials
+        );
+        text.position.x = 24;
+        text.position.y = 3.5;
+        text.position.z = 49.5;
+        text.rotation.y = Math.PI;
+        scene.add(text)
+    });
+
+    //文字4 three.js
+    const fontloader4 = new THREE.FontLoader();
+    fontloader4.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+        const textgeometry = new THREE.TextGeometry('Used main librarys\nThree.js(javascript library)\n\nThanks.', {
+            font: font,
+            size: 0.7,
+            height: 0.01,
+            curveSegments: 12,
+        });
+        var materials = [
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+        ];
+        var text = new THREE.Mesh(
+            textgeometry,
+            materials
+        );
+        text.position.x = 24;
+        text.position.y = -1;
+        text.position.z = 49.5;
+        text.rotation.y = Math.PI;
+        scene.add(text)
+    });
+
+    //文字5 comingsoon
+    const fontloader5 = new THREE.FontLoader();
+    fontloader5.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+        const textgeometry = new THREE.TextGeometry('~ Coming Soon ~', {
+            font: font,
+            size: 0.7,
+            height: 0.01,
+            curveSegments: 12,
+        });
+        var materials = [
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+        ];
+        var text = new THREE.Mesh(
+            textgeometry,
+            materials
+        );
+        text.position.x = 37;
+        text.position.y = 2;
+        text.position.z = 31;
+        text.rotation.y = Math.PI/4 + Math.PI;
+        scene.add(text)
+    });
+
 
     // ゲーミングキューブ！！！
     var gamingsphere = new THREE.Mesh(
         new THREE.SphereGeometry(8, 80, 80), // 形状     
-        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5 })
+        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5 ,opacity : 0.5,transparent: true,})
     );
     gamingsphere.position.set(0, 0, 0);
     gamingsphere.position.x = 40;
@@ -224,6 +332,9 @@ export function GeoCreater(scene) {
     gamingsphere.rotation.y = Math.PI / -2;
     scene.add(gamingsphere);
 
-    return (gamingsphere);
+    var returnobjects = [gamingsphere,discordicon,twittericon,githubicon,fennec_hantei];
+    //returnobjects.push(scene.getObjectByName("fennec3D"));
+
+    return (returnobjects);
 
 }

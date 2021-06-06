@@ -286,8 +286,8 @@ class FirstPersonControls {
 
 		this.dispose = function () {
 
-			this.domElement.removeEventListener( 'contextmenu', contextmenu );
-			this.domElement.removeEventListener( 'mousedown', _onMouseDown );
+			//sthis.domElement.removeEventListener( 'contextmenu', contextmenu );
+			this.domElement.removeEventListener( 'click', _onMouseDown );
 			this.domElement.removeEventListener( 'mousemove', _onMouseMove );
 			this.domElement.removeEventListener( 'mouseup', _onMouseUp );
 
@@ -302,7 +302,7 @@ class FirstPersonControls {
 		const _onKeyDown = this.onKeyDown.bind( this );
 		const _onKeyUp = this.onKeyUp.bind( this );
 
-		this.domElement.addEventListener( 'contextmenu', contextmenu );
+		//this.domElement.addEventListener( 'contextmenu', contextmenu );
 		this.domElement.addEventListener( 'mousemove', _onMouseMove );
 		//this.domElement.addEventListener( 'mousedown', _onMouseDown );
 		//this.domElement.addEventListener( 'mouseup', _onMouseUp );

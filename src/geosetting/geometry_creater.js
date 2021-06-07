@@ -34,7 +34,8 @@ export function GeoCreater(scene) {
     light2.position.set(0, 10, 0);
     //scene.add(light2);
 
-    const light3 = new THREE.PointLight(0x777777, 2, 95, 0.75);
+    const light3 = new THREE.PointLight(0xffffff, 2, 95, 0.75);
+    light3.position.set(0, -1, 0);
     scene.add(light3);
 
     const light = new THREE.AmbientLight(0xaaaaaa, 1.0);
@@ -113,9 +114,10 @@ export function GeoCreater(scene) {
     //3Dモデル、フェネックを読み込み
     let mtlLoader = new MTLLoader();
     let objLoader = new OBJLoader();
-    mtlLoader.load('./models/fennec/fennec.mtl', (materials) => {
-        materials.preload();
-        objLoader.setMaterials(materials);
+    mtlLoader.load('./models/fennec/fennec.mtl', (mtl) => {
+        mtl.preload();
+        mtl.materials.side = THREE.DoubleSide;
+        objLoader.setMaterials(mtl);
         objLoader.load('./models/fennec/fennec.obj', (object) => {
             object.scale.x = 0.5;
             object.scale.y = 0.5;
@@ -151,6 +153,45 @@ export function GeoCreater(scene) {
             object.position.x = 46;
             object.position.y = -7;
             object.position.z = -35;
+            object.rotation.y = Math.PI / -2;
+            scene.add(object);
+        })
+    })
+
+    //steve読み込み
+    let mtlLoader3 = new MTLLoader();
+    let objLoader3 = new OBJLoader();
+    mtlLoader3.load('./models/steve/steve.mtl', (materials) => {
+        materials.preload();
+        objLoader3.setMaterials(materials);
+        objLoader3.load('./models/steve/steve.obj', (object) => {
+            object.scale.x = 1;
+            object.scale.y = 1;
+            object.scale.z = 1;
+            object.position.x = 46;
+            object.position.y = -3.5;
+            object.position.z = -20;
+            object.rotation.y = Math.PI / -2;
+            scene.add(object);
+        })
+    })
+
+    //dome読み込み
+    let mtlLoader4 = new MTLLoader();
+    let objLoader4 = new OBJLoader();
+    mtlLoader4.load('./models/dome/dome.mtl', (mtl) => {
+        mtl.preload();
+        console.log(mtl)
+        mtl.materials.side = THREE.DoubleSide;
+        objLoader4.setMaterials(mtl);
+        objLoader4.load('./models/dome/dome.obj', (object) => {
+            console.log(object)
+            object.scale.x = 10;
+            object.scale.y = 10;
+            object.scale.z = 10;
+            object.position.x = 0;
+            object.position.y = -6.8;
+            object.position.z = 0;
             object.rotation.y = Math.PI / -2;
             scene.add(object);
         })
@@ -323,7 +364,7 @@ export function GeoCreater(scene) {
     // ゲーミングキューブ！！！
     var gamingsphere = new THREE.Mesh(
         new THREE.SphereGeometry(8, 80, 80), // 形状     
-        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5 ,opacity : 0.5,transparent: true,})
+        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5 ,opacity : 0.5,transparent: true,side: THREE.DoubleSide})
     );
     gamingsphere.position.set(0, 0, 0);
     gamingsphere.position.x = 40;

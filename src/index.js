@@ -63,6 +63,20 @@ window.addEventListener('DOMContentLoaded', () => {
   function mouseup(e) {
     controls.lookSpeed = 0.00;
   }
+//リサイズの処理
+  function onResize() {
+    // サイズを取得
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+  
+    // レンダラーのサイズを調整する
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(width, height);
+  
+    // カメラのアスペクト比を正す
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
 
   const clock = new THREE.Clock(true)
   const tick = () => {
@@ -75,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     GamingMove(gamingsphere);
-
+    onResize();
     renderer.render(scene, camera);
     controls.handleResize()
 

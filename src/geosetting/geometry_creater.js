@@ -60,8 +60,8 @@ export function GeoCreater(scene) {
     const light = new THREE.AmbientLight(0x444444, 1.0);
     scene.add(light);
     
-    const light4 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/2, 0.2, 0.4);
-    light4.position.set(10000,3,10000);
+    const light4 = new THREE.SpotLight(0xffffff, 2, 18, Math.PI/2, 100,0.1);
+    light4.position.set(10000,10,10000);
     light4.target = testobj;
     scene.add(light4);
     const light5 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/3, 0.2, 0.4);

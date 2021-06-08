@@ -21,6 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // レンダラーを作成
   const renderer = new THREE.WebGLRenderer();
+  renderer.shadowMap.enabled = true;
 
   // カメラを作成
   const camera = new THREE.PerspectiveCamera(45, VIEWPORT_W / VIEWPORT_H, 1, 1000);

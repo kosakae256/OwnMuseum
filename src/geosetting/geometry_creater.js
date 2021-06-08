@@ -29,18 +29,49 @@ export function GeoCreater(scene) {
         scene.add(gridHelper);
     */
 
+        var testobj = new THREE.Mesh(
+            new THREE.BoxGeometry(2,2,2), // 形状     
+            new THREE.MeshLambertMaterial({ color: 0xff0000,opacity : 0.99,transparent: true,side: THREE.DoubleSide})
+        );
+        testobj.position.set(0, 0, 0);
+        testobj.position.x = 10000;
+        testobj.position.y = 0;
+        testobj.position.z = 10000;
+        testobj.rotation.y = Math.PI / -4;
+        testobj.rotation.z = Math.PI / -4;
+        testobj.rotation.x = Math.PI / -4;
+        scene.add(testobj);
+
+/*
     //平行光源を生成
-    const light2 = new THREE.DirectionalLight(0x444444);
-    light2.position.set(0, 10, 0);
+    const light2 = new THREE.DirectionalLight(0xffffff);
+    light2.position.set(10000, 100, 10000);
     //scene.add(light2);
 
-    const light3 = new THREE.PointLight(0xffffff, 2, 95, 0.75);
-    light3.position.set(0, -1, 0);
-    scene.add(light3);
+    const light3 = new THREE.PointLight(0xffffff, 2, 9, 0.95);
+    light3.position.set(10000, -3, 10000);
+    //scene.add(light3);
 
-    const light = new THREE.AmbientLight(0xaaaaaa, 1.0);
+    const light5 = new THREE.PointLight(0xffffff, 2, 9, 0.9);
+    light5.position.set(10000, 3, 10000);
+    //scene.add(light5);
+*/
+
+    const light = new THREE.AmbientLight(0x444444, 1.0);
     scene.add(light);
-
+    
+    const light4 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/2, 0.2, 0.4);
+    light4.position.set(10000,3,10000);
+    light4.target = testobj;
+    scene.add(light4);
+    const light5 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/3, 0.2, 0.4);
+    light5.position.set(10000,3,10000);
+    light5.target = testobj;
+    //scene.add(light5);
+    const light6 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/4, 0.2, 0.4);
+    light6.position.set(10000,3,10000);
+    light6.target = testobj;
+    //scene.add(light6);
 
     //横縦の画像貼り付けデータ
     let boxArrayData = [
@@ -186,12 +217,12 @@ export function GeoCreater(scene) {
         objLoader4.setMaterials(mtl);
         objLoader4.load('./models/dome/dome.obj', (object) => {
             console.log(object)
-            object.scale.x = 10;
-            object.scale.y = 10;
-            object.scale.z = 10;
-            object.position.x = 0;
-            object.position.y = -6.8;
-            object.position.z = 0;
+            object.scale.x = 30;
+            object.scale.y = 30;
+            object.scale.z = 30;
+            object.position.x = 10000;
+            object.position.y = -7;
+            object.position.z = 10000;
             object.rotation.y = Math.PI / -2;
             scene.add(object);
         })
@@ -364,7 +395,7 @@ export function GeoCreater(scene) {
     // ゲーミングキューブ！！！
     var gamingsphere = new THREE.Mesh(
         new THREE.SphereGeometry(8, 80, 80), // 形状     
-        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5 ,opacity : 0.5,transparent: true,side: THREE.DoubleSide})
+        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5})
     );
     gamingsphere.position.set(0, 0, 0);
     gamingsphere.position.x = 40;

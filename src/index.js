@@ -79,6 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   const clock = new THREE.Clock(true)
+  camera.position.z = 10000;
+  camera.position.x = 10000;
   const tick = () => {
     requestAnimationFrame(tick);
     controls.update(clock.getDelta())

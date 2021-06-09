@@ -1,0 +1,181 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="shortcut icon" href="ファイル名.ico?87">
+  <link rel="stylesheet" href="text/sample.css?854s">
+  <link rel="preconnect" href="https://fonts.gstatic.com?3423">
+  <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap?7" rel="stylesheet">
+  <title>kosakaeのポートフォリオサイト</title>
+</head>
+
+
+<body>
+  <div class="tabs">
+    <!-ここ苦労したんですよ？->
+      <input id="home" type="radio" name="tab_item" onclick="changeHome()" checked>
+      <label class="tab_item" for="home">ホーム</label>
+      <input id="intro" type="radio" name="tab_item" onclick="changeIntro()">
+      <label class="tab_item" for="intro">自己紹介</label>
+      <input id="act" type="radio" name="tab_item" onclick="changeAct()">
+      <label class="tab_item" for="act">活動</label>
+      <input id="hobby" type="radio" name="tab_item" onclick="changeHobby()">
+      <label class="tab_item" for="hobby">趣味</label>
+      <input id="play" type="radio" name="tab_item" onclick="changePlay()">
+      <label class="tab_item" for="play">遊び場</label>
+  </div>
+  <p><br><br><br></p>
+
+  <main class=main>
+    <div class="tab_content" id="home_content">
+      <div class="tab_content_description">
+        <h1 class="c-txtsp">このページについて</h1>
+        <p>私の気分で作られただけのポートフォリオ(?)サイトです。</p>
+        <p>ポートフォリオサイトと謳っておいて、実際はtypescriptとjavascriptとcssとhtmlの練習のためだけに作られたサイトなんですね～</p>
+        <p>成果物とか活動内容的なものを上げる予定です。</p>
+        <p>ソースは汚いので覗いちゃ駄目です。</p>
+        <p>更新できるときに更新します。</p>
+        <p>このサイトは、スマホでの表示を制限しています。</p>
+
+
+
+        <p><small>制作開始日 : 2/02 </small></p>
+      </div>
+    </div>
+
+    <div class="tab_content" id="intro_content">
+      <div class="tab_content_description">
+        <h1 class="c-txtsp">自己紹介</h1>
+        <p>勉強嫌い、ゲームは大好きなごくごく普通の高専生</p>
+        <p>twitterで低俗な下ネタを吐くことが生涯の楽しみな人</p>
+        <p>twitterアカウントを50個くらい持ってます。<small>やばい奴って自覚してます。</small></p>
+        <p>ネットでは基本的にkosakae256またはkosakaeで活動しています。</p>
+        <p>最近はお絵描きをよくしています。趣味の欄に描いた絵でも載せていきます。</p>
+        <p>アニメはけものフレンズが一番好きです。アカウントのアイコンに作品内のキャラクターを必ず入れるほど好きです。<br>
+        最近は進撃の巨人とか見てます。面白いのでぜひ1期から見てください！</p>
+
+        <h1 class="c-txtsp">プログラマとしての自己紹介</h1>
+        <p>MinecraftBE(command)<br>Python入門<br>C入門<br>Pythonista(python信者)<br>pythonAI(2値分類、画像認識)<br>wordpressからつながってjs,ts</p>
+        <p>私の始まりはマイクラ。あのゲームは本気で一種の教材だと思ってます。将来、マイクラに何か恩返ししたいと思ってます。
+        <p>最近はjava、unityが気になってます。ゲーム作りって夢ありますよね！<br><br></p>
+        <p>よく使う言語はpython。簡素なAIくらいなら作れます。</p>
+        <p>4/17追記: GAN(敵対的生成ネットワーク)を理解しているので、そこそこ扱えます。</p>
+
+        <h1 class="c-txtsp">外部アカウント</h1>
+        <p>Twitter : <a class="texthref" target="_blank" rel="nofollow noopener noreferrer" href=https://twitter.com/kosakae256>kosakae256</a></p>
+        <p>GitHub : <a class="texthref" target="_blank" rel="nofollow noopener noreferrer" href=https://github.com/kosakae256>kosakae256</a></p>
+        <p>discordID : kosakae#3667</p>
+
+
+      </div>
+    </div>
+
+    <div class="tab_content" id="act_content">
+      <div class="tab_content_description">
+        <h1 class="c-txtsp">制作物</h1>
+        <h3>ゲーム大会の公式サイト</h3>
+        <p>CarXD1というゲーム大会の公式サイトを共同制作</p>
+        <p><a class="texthref" target="_blank" rel="nofollow noopener noreferrer" href=http://carxd1.azurewebsites.net>CarXD1公式サイト</a></p>
+        <p>同級生からの依頼で、二人での共同開発です。私はゲーム自体プレイしたことがないため、レイアウトなどのデザインを主に担当しました。wordpressで開発、azureで運営されています。<br><br><small>2021/01/26 作成</small><br><br></p>
+        <h3>twitter懸賞botVer.2</h3>
+        <p>ツイッターで誰かが行っている懸賞に対して、応募を自動で行うスクリプトを開発しました。githubで、<a class="texthref" target="_blank" rel="nofollow noopener noreferrer" href=https://github.com/kosakae256/TwitterApplybot>TwitterApplybot</a>と名づけられたリポジトリにファイル群を置いています。</p>
+        <p>Ver.2になっている理由は、2020年初旬に作ったVer.1を2021年版に変更したためです。機能を大きく加え、可読性を高めたコードをVer.2で作成しました。
+          <br>現在は自分専用のコードです。ユーザビリティを高め、誰でも利用できるサイトを構築することを検討しています。<br><br><small>2020~2021 作成</small><br><br>
+        </p>
+        <h3>本サイト</h3>
+        <p>wordpressなどのツールに頼らず、一からサイトを構築したいと思い、本サイトはhtml、javascript、cssなどをコーディングして制作されています。</p>
+        <p>ポートフォリオサイトでありながら、余計な機能が多いのは自分がやりたいように制作しているせいです。html,css,jsの勉強をしながら2日で作りました。<br><br><small>2021/02/02 作成</small><br><br></p>
+
+        <h1 class="c-txtsp">外部活動</h1>
+        <h3>香川高専主催 AIサマースクール</h3>
+        <p>香川高専を本部として行われた、5日間、最低30時間にわたって機械学習を学ぶ勉強会です。</p>
+        <p>講師は松尾研究所所属の東大生数名で、説明が非常にわかりやすく、多くの技術を学べました。<br>勉強会メンバー内でのコンペも行われており、そのおかげでAI構築の技法を多く学べました。</p>
+        <p>近いうちに自作AIを用いた、何かしらを構築したいと思っており、構想を練っています。<br><br><small>2020/8/x </small></p>
+
+        <h3 class="c-txtsp">学内ハッカソン出場</h1>
+        <p>県内の高専生限定で行われたハッカソンに出場してきました。</p>
+        <p>以下の作品を2人チームで発表しました。</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/nTWbbWN9AQo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p>概略で説明すると、自分だけの「2次元の彼女の写真」を作れるアプリです。<br>2人の好みの顔を選んで、中間の顔画像の抽出ができます</p>
+        <p>この機能の実装には、PGGANを使っています。総開発期間は1か月ほどです。(勉強がほとんど)</p>
+        <p>結果は相互投票賞(学生間投票1位)と企業賞2つでした <br><br><small>2021/2/10~3/12 </small></p>
+
+        <h3>Yahoo!主催 HackDay</h3>
+        <p><a target="_blank" rel="nofollow noopener noreferrer" href=https://twitter.com/hackdayjp/status/1348914209497571332?s=20 class="texthref">HackDay公式ツイッター</a></p>
+        <p>たった一日で一つの作品を開発して、発表する大会に出場してきました。
+        <p>開発には、企業から提供される技術を使うことができます。</p>
+        <p>今年はオンラインだったので初めて出場したのですが、すごく大変でした。</p>
+        <p>来年出るかは検討中です。忙しくなければ出たいなと思っています。<br><br><small>2021/3/20~21 </small></p>
+        
+        <h3>Qiita執筆活動</h3>
+        <p>私はQiitaの執筆者に色々なことを教えていただいたので、その恩返しで記事を書いています。</p>
+        <p>誰かの役に立つものから、適当なものまであります。</p>
+        <p><a target="_blank" href=https://qiita.com/kosakae256/items/6da4d2d9d2ed567c5fc4 class="texthref">DCGANでアニメキャラクターを作ろうとして失敗した話</a><br>
+        <a target="_blank" href=https://qiita.com/kosakae256/items/84dc8aac2059ff699dfb class="texthref">高専2年生が機械学習を習得して、学内ハッカソンでトップ(?)を取るまでの物語</a><br>
+        <a target="_blank" href=https://qiita.com/kosakae256/items/cf3293861c14956cce18 class="texthref">DCGANとPGGANを習得したお話-アニメキャラクター画像を生成するまでの過程</a></p>
+        <small>(外部活動っていうのかこれ...)</small>
+        <p><br><small>2021/2/20~ </small></p>
+
+        <h3>??????</h3>
+        <p>6月ごろに明らかになります。</p>
+      </div>
+    </div>
+
+    <div class="tab_content" id="hobby_content">
+      <div class="tab_content_description">
+        <h1 class="c-txtsp">ゲーム</h1>
+        <p>まだだよ！</p>
+        <h1 class="c-txtsp">絵</h1>
+        <p>まだだよ！</p>
+        <h1 class="c-txtsp">ネットサーフィン</h1>
+        <p>(ほとんど趣味じゃない)</p>
+      </div>
+    </div>
+
+    <div class="tab_content" id="play_content">
+      <div class="tab_content_description">
+        <h1 class="c-txtsp">javascriptで暴れまわる場所</h1>
+        <p>もうすぐ3Dモデルを動かす技術を身に着けて、なにかここに作ります。</p>
+      </div>
+    </div>
+
+    <main class="sidebar">
+
+      <div class="sides">
+        <p>
+          <input id="home" type="radio" name="side_item" class="sidecheckbox" onclick="changeHome()" checked>
+          <label class="side_item" for="home">ホーム</label>
+          <input id="intro" type="radio" name="side_item" class="sidecheckbox" onclick="changeIntro()">
+          <label class="side_item" for="intro">自己紹介</label>
+          <input id="act" type="radio" name="side_item" class="sidecheckbox" onclick="changeAct()">
+          <label class="side_item" for="act">活動</label>
+          <input id="hobby" type="radio" name="side_item" class="sidecheckbox" onclick="changeHobby()">
+          <label class="side_item" for="hobby">趣味</label>
+          <input id="play" type="radio" name="side_item" class="sidecheckbox" onclick="changePlay()">
+          <label class="side_item" for="play">遊び場</label>
+        </p>
+      </div>
+
+      <div class="twitter">
+        <h3 class=twitter-wid>Account</h3>
+        <img src="src/twittericon.png" alt="写真" class="twittericon twitter-wid">
+        <p class="twitter-coment twitter-wid">kosakae256<br>
+          <small>kosakaeのアカウント</small>
+        </p>
+        <a class="profile-button twitter-button twitter-share-button-sq twitter-wid" href=https://twitter.com/kosakae256 target="_blank" rel="nofollow noopener noreferrer"><span class="button-caption">Twitter</span></a>
+        <p></p>
+        <a class="profile-button github-button twitter-share-button-sq twitter-wid" href=https://github.com/kosakae256 target="_blank" rel="nofollow noopener noreferrer"><span class="button-caption">GitHub</span></a>
+      </div>
+    </main>
+  </main>
+
+
+  <script type="text/javascript" src='text/jquery-3.5.1.min.js'></script>
+  <script type="text/javascript" src='text/main.js'></script>
+</body>
+
+</html>

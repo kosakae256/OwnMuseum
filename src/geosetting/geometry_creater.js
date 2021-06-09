@@ -3,7 +3,7 @@ import { OBJLoader } from "./../module/OBJLoader";
 import { MTLLoader } from "./../module/MTLLoader";
 
 //Geometry(boxとかメッシュとか)を作って返す。分割用。
-export function GeoCreater(scene) {
+export function GeoCreater(scene,camera) {
     var returnobjects = []
 
     const loader = new THREE.TextureLoader();
@@ -23,55 +23,112 @@ export function GeoCreater(scene) {
     ground.position.y -= 7
     scene.add(ground);
 
-    /*
-        var gridHelper = new THREE.GridHelper(100, 20, 0xffffff, 0xffffff);
-        gridHelper.position.y -= 7
-        scene.add(gridHelper);
-    */
-
-        var testobj = new THREE.Mesh(
-            new THREE.BoxGeometry(2,2,2), // 形状     
-            new THREE.MeshLambertMaterial({ color: 0xff0000,opacity : 0.99,transparent: true,side: THREE.DoubleSide})
-        );
-        testobj.position.set(0, 0, 0);
-        testobj.position.x = 10000;
-        testobj.position.y = 0;
-        testobj.position.z = 10000;
-        testobj.rotation.y = Math.PI / -4;
-        testobj.rotation.z = Math.PI / -4;
-        testobj.rotation.x = Math.PI / -4;
-        scene.add(testobj);
-
-/*
-    //平行光源を生成
-    const light2 = new THREE.DirectionalLight(0xffffff);
-    light2.position.set(10000, 100, 10000);
-    //scene.add(light2);
-
-    const light3 = new THREE.PointLight(0xffffff, 2, 9, 0.95);
-    light3.position.set(10000, -3, 10000);
-    //scene.add(light3);
-
-    const light5 = new THREE.PointLight(0xffffff, 2, 9, 0.9);
-    light5.position.set(10000, 3, 10000);
-    //scene.add(light5);
-*/
-
-    const light = new THREE.AmbientLight(0x444444, 1.0);
-    scene.add(light);
     
-    const light4 = new THREE.SpotLight(0xffffff, 2, 18, Math.PI/2, 100,0.1);
-    light4.position.set(10000,10,10000);
-    light4.target = testobj;
-    scene.add(light4);
-    const light5 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/3, 0.2, 0.4);
-    light5.position.set(10000,3,10000);
-    light5.target = testobj;
-    //scene.add(light5);
-    const light6 = new THREE.SpotLight(0xffffff, 1, 13, Math.PI/4, 0.2, 0.4);
-    light6.position.set(10000,3,10000);
-    light6.target = testobj;
-    //scene.add(light6);
+
+
+    function artifact_creater(x, z, stry, color, ballname,hanten = false,caption) {
+
+        var obj = new THREE.Mesh(
+            new THREE.SphereGeometry(1.25, 80, 80), // 形状  , // 形状     
+            new THREE.MeshLambertMaterial({ color: color, opacity: 0.25, transparent: true })
+        );
+        obj.position.set(0, 0, 0);
+        obj.position.x = x;
+        obj.position.y = 0;
+        obj.position.z = z;
+        scene.add(obj);
+
+        var obj_decision = new THREE.Mesh(
+            new THREE.SphereGeometry(1.30, 80, 80), // 形状  , // 形状     
+            new THREE.MeshLambertMaterial({ color: color, opacity: 0, transparent: true })
+        );
+        obj_decision.position.set(0, 0, 0);
+        obj_decision.position.x = x;
+        obj_decision.position.y = 0;
+        obj_decision.position.z = z;
+        obj_decision.name = ballname
+        scene.add(obj_decision);
+
+        //3Dモデル、スタンド読み込み
+        let mtlLoader = new MTLLoader();
+        let objLoader = new OBJLoader();
+        mtlLoader.load('./models/stand/stand.mtl', (mtl) => {
+            mtl.preload();
+            mtl.materials.side = THREE.DoubleSide;
+            objLoader.setMaterials(mtl);
+            objLoader.load('./models/stand/stand.obj', (object) => {
+                object.scale.x = 1;
+                object.scale.y = 1;
+                object.scale.z = 1;
+                object.position.x = x;
+                object.position.y = -7;
+                object.position.z = z;
+                object.rotation.y = stry;
+                scene.add(object);
+            })
+        });
+
+        //アーティファクトクリック時のキャプション
+        const fontloader = new THREE.FontLoader();
+        fontloader.load('fonts/flopdesign.json', function (font) {
+    
+            const textgeometry = new THREE.TextGeometry(caption, {
+                font: font,
+                size: 0.7,
+                height: 0.01,
+                curveSegments: 12,
+            });
+            textgeometry.center();
+            var materials = [
+                new THREE.MeshLambertMaterial({ color: 0xffffff, overdraw: 0.5 }),
+                new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            ];
+            var text = new THREE.Mesh(
+                textgeometry,
+                materials
+            );
+            text.position.x = x;
+            text.position.y = 20;
+            text.position.z = z;
+            if (hanten==false) {text.rotation.y = stry + Math.PI/2;}
+            else {text.rotation.y = stry + Math.PI/2 + Math.PI;}
+            scene.add(text)
+        });
+
+        const light = new THREE.SpotLight(0xffff88, 2, 18, Math.PI / 2, 1, 0.5);
+        light.position.set(x, 10, z);
+        light.target = obj;
+        light.penumbra = 1;
+        scene.add(light);
+
+        const lightx = new THREE.SpotLight(0xffebcd, 2, 60, Math.PI / 16, 1, 0);
+        lightx.position.set(10000, 30, 10000);
+        lightx.target = obj;
+        scene.add(lightx);
+    }
+
+    var arti_info = [
+        [9960, 9960, Math.PI / -4, 0xff0000, "ball1",false,"TwitterApplyBot\n\nツイッターでリアルマネーを稼ぐシステム\nアフィリエイトや詐欺など怪しい姑息なやりかたを使わずに\n半オート化に成功しました\n\nどうやってそんなのやってるのっていうのをよく聞かれるのですが\n正直、教えたくないやりかたを使ってます\nというのも、同じことをされるとこちら側の効率が下がります\nなのでここにはやりかたは書きません\n下のソースコードを読んで理解してください\n\nちなみに今は動かしてないです。半オートはだるい。"],
+        [9960, 10040, Math.PI / 4, 0xffff00, "ball2",false,"~ Coming Soon ~"],
+        [10040, 10040, Math.PI + Math.PI / -4, 0x00ff00, "ball3",false,""],
+        [10040, 9960, Math.PI + Math.PI / 4, 0x00ffff, "ball4",false,"Aware She\n\n@takara2314 との共同開発で作った開発物です\n名前の通り「あなただけのガールフレンド」を創れます\n2次元のおんなのこの画像を”虚無から作り出す”システムです\n\n2021/06/09時点で私が創った開発物で最もレベルがたかいプロダクトです\n\n私は機械学習の部分を実装しました\n学内でおこなわれたハッカソン(開発物をみせあって競うやつ)で\n実質的な優勝を勝ち取りました\n\n様々な問題があり、ネット上に公開することは不可能でした\nそのうち公開できるといいですね\n\n下のアーティファクトから、製品の動作例をみることができますよ"],
+        [10060, 10000, 0, 0x0000ff, "ball5",true,"Yahho HackDay2021\n\n24時間でなんでもいいから作って\nそれを2分で紹介して競い合おうというやつです\n参加チーム数は約70チームにのぼりました\n\nこのハッカソンを通して、私のレベルはまだまだ低いことを再確認しました。\nどの作品もレベルがたかかったのを覚えています\nおもしろいものばかりなので興味があればぜひみてください\n\nあ、2022もあるっぽいのでだれかいっしょにやりませんか..."],
+        [10000, 10060, Math.PI / 2, 0xff00ff, "ball6",false,""],
+        [9940, 10000, Math.PI, 0x000000, "ball7",true,"未踏ジュニア応募\n\n全国のつよつよプログラマが集まる未踏ジュニアに応募してました\n超優秀なメンターさんが開発を応援してくれます\nまた、50万円の開発費を提供してもらえます\n受かるだけで超ハイレベルといわれています(倍率8倍)\n\nま、私は落ちたんですけどね！！！！！！！\n1次試験は通ったんですよ。それだけで名誉なことではあるんですが...\n\n未踏に落ちてわかったこともたくさんあります\n今度は後悔しないように頑張ります\n\n下のアーティファクトは未踏ジュニアの公式サイトにとびます。\n17歳以下でしか応募できないので、興味があったらお早めに.."],
+        [10000, 9940, Math.PI * 1.5, 0xffffff, "ball8",false,"本サイト\n\n本サイトは主にthree.jsによって作られています\njsを触るのが初めてなので、簡単な実装しかしていません\n\n@takara2314 がなんか3Dでやってたのでパクりました\nごめんなさい。\nパクったとかいわれないくらいにはサイトの形式が違うので許してね\n\nFirstPersonControlなどの操作関係は改造しました\n(本当はめちゃくちゃ操作しにくいんですよ？)\n\n本来このサイトは、絵を置くだけの予定だったのですが...\n\nここは開発物や活動を紹介する場所です\n下のアーティファクトを選択すると前のポートフォリオサイトにとびます\n(何も書かれていないものは、そのうち追加されていきます)"]
+    ]
+
+    for (var i = 0; i < 8; i++) {
+        artifact_creater(arti_info[i][0], arti_info[i][1], arti_info[i][2], arti_info[i][3], arti_info[i][4],arti_info[i][5],arti_info[i][6])
+    }
+
+    const spotlight = new THREE.PointLight(0xffffff, 2, 20, 0.75);
+    spotlight.position.set(10000, 5, 10000);
+    scene.add(spotlight);
+
+
+    const ambientlight = new THREE.AmbientLight(0xdddddd, 1.0);
+    scene.add(ambientlight);
 
     //横縦の画像貼り付けデータ
     let boxArrayData = [
@@ -163,13 +220,13 @@ export function GeoCreater(scene) {
     })
 
     //フェネックの当たり判定
-    const geometry_fene = new THREE.BoxGeometry(4, 20, 4);
-    const fennec_hantei = new THREE.Mesh(geometry_fene, new THREE.MeshBasicMaterial({ color : 0xffffff, opacity : 0.0,transparent: true,}));
-    fennec_hantei.position.x = 46;
-    fennec_hantei.position.y = -7;
-    fennec_hantei.position.z = -25;
-    fennec_hantei.rotation.y = Math.PI / -2;
-    scene.add(fennec_hantei);
+    const geometry_fene = new THREE.CylinderGeometry(2, 2, 10, 80);
+    const fennec_decision = new THREE.Mesh(geometry_fene, new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, }));
+    fennec_decision.position.x = 46;
+    fennec_decision.position.y = -2;
+    fennec_decision.position.z = -25;
+    fennec_decision.rotation.y = Math.PI / -2;
+    scene.add(fennec_decision);
 
     //3Dモデル、ホワイトボード読込み
     let mtlLoader2 = new MTLLoader();
@@ -239,6 +296,17 @@ export function GeoCreater(scene) {
     discordicon.rotation.y = Math.PI / -2;
     scene.add(discordicon);
 
+    //discordアイコンの当たり判定
+    var discord_dicision = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 0.1),
+        new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, })
+    );
+    discord_dicision.position.x = 45.8;
+    discord_dicision.position.y = -0.5;
+    discord_dicision.position.z = -39;
+    discord_dicision.rotation.y = Math.PI / -2;
+    scene.add(discord_dicision)
+
     //twitterアイコン読み込み
     var twittericon = new THREE.Mesh(
         new THREE.PlaneGeometry(2, 2, 10, 10),
@@ -251,6 +319,17 @@ export function GeoCreater(scene) {
     twittericon.position.z = -37;
     twittericon.rotation.y = Math.PI / -2;
     scene.add(twittericon);
+
+    //twitterアイコンの当たり判定
+    var twitter_dicision = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 0.1),
+        new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, })
+    );
+    twitter_dicision.position.x = 45.8;
+    twitter_dicision.position.y = -0.5;
+    twitter_dicision.position.z = -37;
+    twitter_dicision.rotation.y = Math.PI / -2;
+    scene.add(twitter_dicision)
 
 
     //githubアイコン読み込み
@@ -266,6 +345,65 @@ export function GeoCreater(scene) {
     githubicon.rotation.y = Math.PI / -2;
     scene.add(githubicon);
 
+    //githubアイコンの当たり判定
+    var github_dicision = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 0.1),
+        new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, })
+    );
+    github_dicision.position.x = 45.8;
+    github_dicision.position.y = -0.5;
+    github_dicision.position.z = -35;
+    github_dicision.rotation.y = Math.PI / -2;
+    scene.add(github_dicision)
+
+    //パーティクルを付けるボタン
+    var parton = new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2, 10, 10),
+        new THREE.MeshLambertMaterial({ color: 0xffffff })
+    );
+    parton.scale.x = 0.8;
+    parton.scale.y = 0.8;
+    parton.position.x = 49.5;
+    parton.position.y = -2;
+    parton.position.z = -16;
+    parton.rotation.y = Math.PI / -2;
+    scene.add(parton);
+
+    //パーティクルを付けるボタンの当たり判定
+    var parton_dicision = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 0.1),
+        new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, })
+    );
+    parton_dicision.position.x = 49.5;
+    parton_dicision.position.y = -2;
+    parton_dicision.position.z = -16;
+    parton_dicision.rotation.y = Math.PI / -2;
+    scene.add(parton_dicision)
+
+    //パーティクルを消すボタン
+    var partoff = new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2, 10, 10),
+        new THREE.MeshLambertMaterial({ color: 0x000000 })
+    );
+    partoff.scale.x = 0.8;
+    partoff.scale.y = 0.8;
+    partoff.position.x = 49.5;
+    partoff.position.y = -2;
+    partoff.position.z = -14;
+    partoff.rotation.y = Math.PI / -2;
+    scene.add(partoff);
+
+    //パーティクルを消すボタンの当たり判定
+    var partoff_dicision = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 0.1),
+        new THREE.MeshBasicMaterial({ color: 0x1e90ff, opacity: 0, transparent: true, })
+    );
+    partoff_dicision.position.x = 49.5;
+    partoff_dicision.position.y = -2;
+    partoff_dicision.position.z = -14;
+    partoff_dicision.rotation.y = Math.PI / -2;
+    scene.add(partoff_dicision)
+
     //文字1,アカウント
     const fontloader = new THREE.FontLoader();
     fontloader.load('fonts/helvetiker_regular.typeface.json', function (font) {
@@ -277,8 +415,8 @@ export function GeoCreater(scene) {
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff, overdraw: 0.5 }),
-            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: 0xffd700, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0xffa500, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -302,8 +440,8 @@ export function GeoCreater(scene) {
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff, overdraw: 0.5 }),
-            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: 0xffd700, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0xffa500, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -327,8 +465,8 @@ export function GeoCreater(scene) {
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
-            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: 0xffffff, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0xffffff, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -352,8 +490,8 @@ export function GeoCreater(scene) {
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
-            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: 0xffffff, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0xffffff, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -366,19 +504,19 @@ export function GeoCreater(scene) {
         scene.add(text)
     });
 
-    //文字5 comingsoon
+    //文字5 develop products
     const fontloader5 = new THREE.FontLoader();
     fontloader5.load('fonts/helvetiker_regular.typeface.json', function (font) {
 
-        const textgeometry = new THREE.TextGeometry('~ Coming Soon ~', {
+        const textgeometry = new THREE.TextGeometry('Develop Products', {
             font: font,
-            size: 0.7,
-            height: 0.01,
+            size: 1,
+            height: 0.5,
             curveSegments: 12,
         });
         var materials = [
-            new THREE.MeshLambertMaterial({ color: Math.random() * 0x000000, overdraw: 0.5 }),
-            new THREE.MeshLambertMaterial({ color: 0x000000, overdraw: 0.5 })
+            new THREE.MeshLambertMaterial({ color: 0xffd700, overdraw: 0.5 }),
+            new THREE.MeshLambertMaterial({ color: 0xffa500, overdraw: 0.5 })
         ];
         var text = new THREE.Mesh(
             textgeometry,
@@ -387,15 +525,15 @@ export function GeoCreater(scene) {
         text.position.x = 37;
         text.position.y = 2;
         text.position.z = 31;
-        text.rotation.y = Math.PI/4 + Math.PI;
+        text.rotation.y = Math.PI / 4 + Math.PI;
         scene.add(text)
     });
 
 
     // ゲーミングキューブ！！！
     var gamingsphere = new THREE.Mesh(
-        new THREE.SphereGeometry(8, 80, 80), // 形状     
-        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5})
+        new THREE.SphereGeometry(12, 80, 80), // 形状     
+        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5, transparent: true, opacity: 0.75 })
     );
     gamingsphere.position.set(0, 0, 0);
     gamingsphere.position.x = 40;
@@ -403,9 +541,25 @@ export function GeoCreater(scene) {
     gamingsphere.position.z = 40;
     gamingsphere.rotation.y = Math.PI / -2;
     scene.add(gamingsphere);
+    
+    // ゲーミングキューブ2！！！
+    var gamingsphere2 = new THREE.Mesh(
+        new THREE.SphereGeometry(6, 80, 80), // 形状     
+        new THREE.MeshLambertMaterial({ color: 0xff0000, overdraw: 0.5, transparent: true, opacity: 0.1 })
+    );
+    gamingsphere2.position.set(0, 0, 0);
+    gamingsphere2.position.x = 10000;
+    gamingsphere2.position.y = 20;
+    gamingsphere2.position.z = 10000;
+    scene.add(gamingsphere2);
 
-    var returnobjects = [gamingsphere,discordicon,twittericon,githubicon,fennec_hantei];
-    //returnobjects.push(scene.getObjectByName("fennec3D"));
+    //当たり判定を持つオブジェクトのリスト
+    var returnobjects = [gamingsphere,gamingsphere2, discord_dicision, twitter_dicision, github_dicision, fennec_decision];
+    for (var i=1; i<9; i++) {
+        returnobjects.push(scene.getObjectByName("ball"+i));
+    }
+    returnobjects.push(parton_dicision);
+    returnobjects.push(partoff_dicision);
 
     return (returnobjects);
 

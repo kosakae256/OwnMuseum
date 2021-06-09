@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    mode: 'development',//webpack4以降はモード指定しなければいけない
+    mode: 'production',//webpack4以降はモード指定しなければいけない
     watch: true,
     entry: {app: './src/index.js'},//エントリーポイント。連想配列にすることでappというキーに対してはindex.jsがentryとセットできる
     output: {
